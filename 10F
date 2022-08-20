@@ -1,0 +1,120 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+int sign(long long a){
+    if(a>0) return 1;
+    if(abs(a)==0) return 0;
+    return -1;
+}
+bool Maxim (vector<vector<long long>> t){
+long long k[2][3];
+    k[0][0] = t[0][3]-t[0][1];
+    k[0][1] = t[0][0] - t[0][2];
+    k[0][2] = t[0][2]*t[0][1] - t[0][3]*t[0][0];
+    k[1][0] = t[1][3]-t[1][1];
+    k[1][1] = t[1][0] - t[1][2];
+    k[1][2] = t[1][2]*t[1][1] - t[1][3]*t[1][0];
+    if(sign(k[0][0]*t[1][0] + k[0][1]*t[1][1] + k[0][2])==sign(k[0][0]*t[1][2] + k[0][1]*t[1][3] + k[0][2])&&sign(k[0][0]*t[1][2] + k[0][1]*t[1][3] + k[0][2])!=0){
+        return false;
+    }
+    if(sign(k[1][0]*t[0][0] + k[1][1]*t[0][1] + k[1][2])==sign(k[1][0]*t[0][2] + k[1][1]*t[0][3] + k[1][2])&&sign(k[1][0]*t[0][2] + k[1][1]*t[0][3] + k[1][2])!=0){
+        return false;
+    }
+        if ((abs(k[1][0]*t[0][0] + k[1][1]*t[0][1] + k[1][2])==0 ) && (abs(k[1][0]*t[0][2] + k[1][1]*t[0][3] + k[1][2])==0)) {
+            for(int s = 0; s <3; s+=2){
+                if((t[0][s]-t[1][0])*(t[0][(s+2)%4]-t[1][2]) + (t[0][s+1]-t[1][1])*(t[0][(s+3)%4]-t[1][3]) <= 0){
+                    return true;
+                }
+            }
+            return false;
+        }
+
+    return true;
+}
+
+bool deadinside (long long x1, long long y1, vector<vector<long long>> tr_p, vector<vector<long long>> tr_k){
+    for(int i = 0; i < 3; ++i){
+        if(sign(tr_k[i][0]*tr_p[i][0] + tr_k[i][1]*tr_p[i][1]+tr_k[i][2]) != sign(tr_k[i][0]*x1+tr_k[i][1]*y1+tr_k[i][2])){
+            return false;
+        }
+    }
+    return true;
+}
+bool deadinsideandonside (long long x1, long long y1, vector<vector<long long>> tr_p, vector<vector<long long>> tr_k){
+    for(int i = 0; i < 3; ++i){
+        if(sign(tr_k[i][0]*tr_p[i][0] + tr_k[i][1]*tr_p[i][1]+tr_k[i][2]) != sign(tr_k[i][0]*x1+tr_k[i][1]*y1+tr_k[i][2])){
+            return false;
+        }
+        if(sign(tr_k[i][0]*x1+tr_k[i][1]*y1+tr_k[i][2])==0) return true;
+    }
+    return true;
+}
+
+int main()
+{
+    vector<vector<long long>> tr_k1(3,vector<long long>(3));
+    vector<vector<long long>> tr_p1(3,vector<long long>(2));
+    vector<vector<long long>> tr_k2(3,vector<long long>(3));
+    vector<vector<long long>> tr_p2(3,vector<long long>(2));
+    bool anya = true;
+    bool tema = false;
+    bool gosha = false;
+    long long x,y;
+    cin >> x >> y;
+    tr_p1[0] = {x,y};
+    cin >> x >> y;
+    if(x*x+y*y>0) {anya = false;}
+    if(x==0 || y==0) tema = true;
+    tr_p1[1] = {tr_p1[0][0]+x,tr_p1[0][1]};
+    tr_p1[2] = {tr_p1[0][0],tr_p1[0][1]+y};
+    cin >> x >> y;
+    tr_p2[0] = {x,y};
+    cin >> x >> y;
+    if(x*x+y*y>0) {anya = false;  }
+    if(x==0 || y==0) gosha = true;
+    tr_p2[1] = {tr_p2[0][0]+x,tr_p2[0][1]};
+    tr_p2[2] = {tr_p2[0][0],tr_p2[0][1]+y};
+    if(anya){
+        if(tr_p1[0][0] == tr_p2[0][0] && tr_p1[0][1] == tr_p2[0][1]){
+            cout << "YES";
+            return 0;
+        } else {
+            cout << "NO";
+            return 0;
+        }
+    }
+    for(int i = 0; i <3; ++i){
+        tr_k1[i][0] = tr_p1[(i+2)%3][1] - tr_p1[(i+1)%3][1];
+        tr_k1[i][1] = tr_p1[(i+1)%3][0] - tr_p1[(i+2)%3][0];
+        tr_k1[i][2] = tr_p1[(i+1)%3][0]*(tr_p1[(i+1)%3][1]-tr_p1[(i+2)%3][1]) - tr_p1[(i+1)%3][1] * (tr_p1[(i+1)%3][0] - tr_p1[(i+2)%3][0]);
+    }
+    for(int i = 0; i <3; ++i){
+        tr_k2[i][0] = tr_p2[(i+2)%3][1] - tr_p2[(i+1)%3][1];
+        tr_k2[i][1] = tr_p2[(i+1)%3][0] - tr_p2[(i+2)%3][0];
+        tr_k2[i][2] = tr_p2[(i+1)%3][0]*(tr_p2[(i+1)%3][1]-tr_p2[(i+2)%3][1]) - tr_p2[(i+1)%3][1] * (tr_p2[(i+1)%3][0] - tr_p2[(i+2)%3][0]);
+    }
+    for(int i = 0; i < 3; ++i){
+        if(gosha) break;
+        if(deadinside(tr_p1[i][0],tr_p1[i][1],tr_p2,tr_k2)){
+            cout << "YES";
+            return 0;
+        }
+    }
+    for(int i = 0; i < 3; ++i){
+        if(tema) break;
+        if(deadinside(tr_p2[i][0],tr_p2[i][1],tr_p1,tr_k1)){
+            cout << "YES";
+            return 0;
+        }
+    }
+    for(int i = 0; i < 3; ++i){
+        for(int j = 0; j < 3; ++j){
+            vector<vector<long long>> t = {{tr_p1[(i+1)%3][0],tr_p1[(i+1)%3][1],tr_p1[(i+2)%3][0],tr_p1[(i+2)%3][1]},{tr_p2[(j+1)%3][0],tr_p2[(j+1)%3][1],tr_p2[(j+2)%3][0],tr_p2[(j+2)%3][1]}};
+            if(Maxim(t)){
+                cout << "YES";
+                return 0;
+            }
+        }
+    }
+    cout << "NO";
+}
