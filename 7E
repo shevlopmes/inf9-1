@@ -1,0 +1,28 @@
+#include <bits/stdc++.h>
+using namespace std;
+double ugol ( double x, double y){
+
+    double ans = atan2(y,x);
+    return ans;
+}
+int main() {
+    cout << setprecision(10);
+    double x,y,z,t;
+    int N;
+    cin >> N;
+    int ans = 0;
+    cin >> x >> y >> z >> t;
+    pair<double,double> vec = make_pair(z-x,t-y);
+    x= z;
+    y = t;
+    for(int i = 0; i < N-2; ++i){
+            cin >> z >> t;
+            if(ugol(z-x,t-y)-ugol(vec.first,vec.second) > 0 && ugol(z-x,t-y)-ugol(vec.first,vec.second) < 3.14159) ans++;
+            if(ugol(z-x,t-y) < 0 && ugol(vec.first,vec.second) > 0 && ugol(z-x,t-y) + 2 * 3.14159265359 - ugol(vec.first,vec.second) < 3.14159) ans++;
+            vec.first = z-x;
+            vec.second = t-y;
+            x = z;
+            y = t;
+    }
+    cout << ans;
+ }
