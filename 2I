@@ -1,0 +1,32 @@
+#include <iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+
+int main()
+{
+    int n,m;
+    cin >> n >> m;
+    vector<int>a(m,0);
+    vector<int>b(m,0);
+    char x;
+    int z,t;
+    for(int i = 0; i < n; ++i){
+        cin >> z >> t;
+        z--;
+        t--;
+        cin >> x;
+        if(x == 'N' || x == 'S'){
+            a[z]=1;
+            continue;
+        }
+        b[t]=1;
+    }
+    int suma = 0;
+    int sumb = 0;
+    for(int i = 0; i < m; ++i){
+        suma+=a[i];
+        sumb+=b[i];
+    }
+    cout << (m-suma)*m*2 + (m-sumb)*m*2 + (m-suma)*(m-sumb)*2;
+}
