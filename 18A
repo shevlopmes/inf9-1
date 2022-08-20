@@ -1,0 +1,13 @@
+#include<bits/stdc++.h>
+using namespace std;
+int main(){
+    double a,b,c,d,e;
+    cout.precision(20);
+    cin >> a >> b >> c >> d >> e;
+    cout << c-a << " " << d-b << endl;
+    cout << (c-a)*1./sqrt((c-a)*(c-a)+(d-b)*(d-b)) << " " << (d-b)*1./sqrt((c-a)*(c-a)+(d-b)*(d-b)) << endl;
+    cout << (c-a)*1./sqrt((c-a)*(c-a)+(d-b)*(d-b))*e << " " << (d-b)*1./sqrt((c-a)*(c-a)+(d-b)*(d-b))*e << endl;
+    cout << -(-d+b) << " " << -(c-a) << endl;
+    cout << -d+b << " " << c-a << endl;
+
+}
