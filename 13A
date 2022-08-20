@@ -1,0 +1,53 @@
+#include <iostream>
+#include<vector>
+#include<cmath>
+using namespace std;
+
+int main()
+{
+    cout.precision(20);
+    vector<double> w(2);
+    double r;
+    vector<vector<double>> t(2, vector<double>(2));
+    cin >> w[0] >> w[1];
+    cin >> r;
+    for(int i = 0; i < 2; ++i){
+        for(int j = 0; j < 2; ++j){
+            cin >> t[i][j];
+        }
+    }
+    if(t[0][0] == t[1][0] && t[0][1] == t[1][1]){
+        cout << abs(r-sqrt((t[0][0]-w[0])*(t[0][0]-w[0]) + (t[0][1] - w[1])*(t[0][1]-w[1])));
+    }
+    vector<vector<double>> k(2, vector<double>(3));
+    k[0][0] = t[1][1] - t[0][1];
+    k[0][1] = t[0][0] - t[1][0];
+    k[0][2] = t[1][0]*t[0][1] - t[0][0]*t[1][1];
+    k[1][0] = k[0][1];
+    k[1][1] = -k[0][0];
+    k[1][2] = k[0][0]*w[1] - k[0][1]*w[0];
+    double x = (-k[0][2]*k[1][1] + k[1][2]*k[0][1])*1./(k[0][0]*k[1][1] - k[1][0]*k[0][1]);
+    double y = (-k[0][0]*k[1][2] + k[1][0]*k[0][2])*1./(k[0][0]*k[1][1] - k[1][0]*k[0][1]);
+    if((x-t[0][0])*(x-t[1][0])+(y-t[0][1])*(y-t[1][1]) <= 0){
+        double a = sqrt((t[0][0]-w[0])*(t[0][0]-w[0]) + (t[0][1] - w[1])*(t[0][1]-w[1]));
+        double b = sqrt((t[1][0]-w[0])*(t[1][0]-w[0]) + (t[1][1] - w[1])*(t[1][1]-w[1]));
+        double c = sqrt((x-w[0])*(x-w[0]) + (y - w[1])*(y-w[1]));
+        if((a-r)*(c-r)<=0){
+            cout << 0;
+            return 0;
+        }
+        if((b-r)*(c-r)<=0){
+            cout << 0;
+            return 0;
+        }
+        cout << min(abs(a-r),min(abs(b-r),abs(c-r))); return 0;
+    }
+    else {
+        double a = sqrt((t[0][0]-w[0])*(t[0][0]-w[0]) + (t[0][1] - w[1])*(t[0][1]-w[1]));
+        double b = sqrt((t[1][0]-w[0])*(t[1][0]-w[0]) + (t[1][1] - w[1])*(t[1][1]-w[1]));
+        if((a-r)*(b-r) <= 0){
+            cout << 0; return 0;
+        }
+        cout << min(abs(a-r),abs(b-r));
+    }
+}
