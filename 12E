@@ -1,0 +1,28 @@
+#include <iostream>
+#include<vector>
+#include<cmath>
+using namespace std;
+double s (vector<vector<double>>t){
+    {  double a = sqrt((t[0][0]-t[1][0])*(t[0][0]-t[1][0]) + (t[0][1]-t[1][1])*(t[0][1]-t[1][1])); double b = sqrt((t[2][0]-t[1][0])*(t[2][0]-t[1][0]) + (t[2][1]-t[1][1])*(t[2][1]-t[1][1])); double c = sqrt((t[0][0]-t[2][0])*(t[0][0]-t[2][0]) + (t[0][1]-t[2][1])*(t[0][1]-t[2][1])); double p = (a+b+c)*1./2; double s = sqrt(p*(p-a)*(p-b)*(p-c));
+return s;
+}
+}
+int main()
+{
+    double a, b, c, d;
+    cout.precision(20);
+    cin >> a >> b >> c >> d;
+    double cosa = (b*b+c*c-a*a)*1./(2*b*c);
+    double cosb = (a*a+c*c-b*b)*1./(2*a*c);
+    double cosc = (a*a+b*b-c*c)*1./(2*a*b);
+    double sina = sqrt(1-cosa*cosa);
+    double sinb = sqrt(1-cosb*cosb);
+    double sinc = sqrt(1-cosc*cosc);
+   double tga = cosa*1./sina;
+   if(sina==0) tga=0;
+   double tgb = cosb*1./sinb;
+   if(sinb==0) tgb = 0;
+   double tgc = cosc*1./sinc;
+   if(sinc==0) tgc = 0;
+    cout << (a+b+c-d*tga-d*tgb-d*tgc)*d - d*d/sinb - d*d/sina - d*d/sinc;
+}
