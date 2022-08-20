@@ -1,0 +1,11 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int main()
+{
+    double x1,y1,a,b;
+    cin >> x1 >> y1 >> a >> b;
+    cout << setprecision(10);
+    cout << fixed << a << " " << b << " " << -a*x1-b*y1;
+}
