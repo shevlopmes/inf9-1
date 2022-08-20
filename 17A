@@ -1,0 +1,63 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int sign(double a){
+    if(a>0) return 1;
+    if(a<0) return -1;
+    if(a==0) return 0;
+}
+int main()
+{
+    srand(time(0));
+    int n;
+    cin >> n;
+    vector<vector<double>> t(n, vector<double>(2));
+    for(int i = 0; i < n; ++i){
+        cin >> t[i][0] >> t[i][1];
+    }
+    bool storony = true;
+    bool ugly = true;
+    bool vypuklyy = true;
+    double s = (t[1][0]-t[0][0])*(t[1][0]-t[0][0]) + (t[1][1]-t[0][1])*(t[1][1]-t[0][1]);
+    for(int i = 1; i < n; ++i){
+        if(abs((t[(i+1)%n][0]-t[i][0])*(t[(i+1)%n][0]-t[i][0]) + (t[(i+1)%n][1]-t[i][1])*(t[(i+1)%n][1]-t[i][1]) - s) > 1e-6){
+            storony = false;
+        }
+    }
+    if(!storony){
+        cout << "NO";
+        return 0;
+    }
+    double cosa = cos(M_PI*(n-2)*1./n);
+    for(int i = 0; i < n; ++i){
+        double x1 = -t[(i+1)%n][0] + t[i][0];
+        double y1 = -t[(i+1)%n][1] + t[i][1];
+        double x2 = t[(i+2)%n][0] - t[(i+1)%n][0];
+        double y2 = t[(i+2)%n][1] - t[(i+1)%n][1];
+        if(abs((x1*x2+y1*y2)*1./s - cosa)> 1e-6){
+            ugly = false;
+        }
+    }
+    if(!ugly){
+        cout << "NO";
+        return 0;
+    }
+    for(int i = 0; i < n; ++i){
+        vector<double> k(3);
+        k[0] = t[(i+1)%n][1] - t[i][1];
+        k[1] = t[i][0] - t[(i+1)%n][0];
+        k[2] = -t[i][0]*t[(i+1)%n][1] + t[(i+1)%n][0]*t[i][1];
+        int tmp = 0;
+        for(int j = 0; j < n; ++j){
+            if(j==i || j==(i+1)%n) continue;
+            tmp+=sign(k[0]*t[j][0] + k[1]*t[j][1] + k[2]);
+        }
+        if(abs(tmp) != n-2) vypuklyy = false;
+    }
+    if(!vypuklyy){
+        cout << "NO";
+        return 0;
+    }
+    cout << "YES";
+}
