@@ -1,0 +1,11 @@
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+    cout.precision(10);
+    double a,b,c,d,e,f;
+    cin >> a >> b >> c >> d >> e >> f;
+    cout << (e*d-b*f)*1./(a*d-b*c) << " " << (a*f-c*e)*1./(a*d-b*c);
+}
