@@ -1,0 +1,18 @@
+#include <bits/stdc++.h>
+using namespace std;
+int main() {
+    cout << setprecision(5);
+    double x,y;
+    cin >> x >> y;
+    if(x==0){
+        if(y > 0){
+            cout << 3.14159*1./2;
+            return 0;
+        }
+        cout << 3.*3.14159/2;
+        return 0;
+    }
+    double ans = atan2(y,x);
+    if(ans<0) ans = 2*3.14159+ans;
+    cout << fixed << ans;
+ }
