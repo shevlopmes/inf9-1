@@ -1,0 +1,41 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    queue<pair<int,int>>a;
+    int N;
+    cin >> N;
+    vector<int>out(N,0);
+    vector<pair<int,int>> in;
+    int h,m,q;
+    for(int i = 0; i < N; ++i){
+        cin >> h >> m >> q;
+        in.push_back(make_pair(60*h+m,q));
+    }
+    int now = 0;
+    for(int i = 0; i < N; ++i){
+        while(now+20 <= in[i].first && a.size()>0){
+            out[a.front().first] = now+20;
+            now+=20;
+            a.pop();
+        }
+
+        if(a.size()>in[i].second){
+            out[i] = in[i].first;
+
+            continue;
+        }
+        if(a.size()==0) now = max(now,in[i].first);
+        a.push(make_pair(i, in[i].first));
+
+    }
+    while(a.size()>0){
+            out[a.front().first] = now+20;
+            now+=20;
+            a.pop();
+        }
+    for(int i = 0; i < N; ++i){
+        cout << out[i]/60 << " " << out[i]%60 << '\n';
+    }
+}
