@@ -1,0 +1,35 @@
+#include <iostream>
+#include<vector>
+#include<algorithm>
+#include<bits/stdc++.h>
+using namespace std;
+double ras (double x, double y){
+    double ans = x-y;
+    if(ans < 0) ans = y-x;
+    if(ans<0) ans+=180;
+    if(ans > 180) ans = 360 - ans;
+    return ans;
+}
+int main()
+{
+    int n;
+    cin >> n;
+    double a[n];
+    double b[n] = {0};
+    for(int i = 0; i < n; ++i){
+        cin >> a[i];
+    }
+    for(int i = 0; i < n; ++i){
+        for(int j = 0; j < n; ++j){
+            if(j==i) continue;
+            b[i] += ras(a[i],a[j]);
+        }
+    }
+    int i = 0;
+    int ans = 0;
+    while(i < n){
+        if(b[i] < b[ans]) ans = i;
+        ++i;
+    }
+    cout << setprecision(10) << a[ans];
+}
