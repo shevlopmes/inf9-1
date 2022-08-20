@@ -1,0 +1,35 @@
+#include <iostream>
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    int x;
+    string in;
+    vector<string> dev;
+    vector<string> des;
+    vector<string> odin;
+    while(cin >> x){
+        if(x==9){
+            cin >> in;
+            dev.push_back(in);
+        }
+        if(x==10){
+            cin >> in;
+            des.push_back(in);
+        }
+        if(x==11){
+            cin >> in;
+            odin.push_back(in);
+        }
+    }
+    for(int i = 0; i < dev.size(); ++i){
+        cout << 9 << " " << dev[i] << '\n';
+    }
+    for(int i = 0; i < des.size(); ++i){
+        cout << 10 << " " << des[i] << '\n';
+    }
+    for(int i = 0; i < odin.size(); ++i){
+        cout << 11 << " " << odin[i] << '\n';
+    }
+}
