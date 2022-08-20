@@ -1,0 +1,30 @@
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+    int n;
+    cin >> n;
+    int a[n];
+    for(int i = 0; i < n; ++i){
+        cin >> a[i];
+    }
+    int cnt = 0;
+    int now = 0;
+    for(int i = 0; i < n; ++i){
+        int mi = i;
+        for(int j = i+1; j < n; ++j){
+            if(a[j] < a[mi]) mi = j;
+        }
+        if((mi == now && mi!=i)||(now==i && mi!=now)){
+            if(mi==now){now = i;}
+            else if(i==now){ now = mi;}
+            swap(a[mi],a[i]);
+            cnt++;
+        } else {
+            swap(a[mi],a[i]);
+        }
+    }
+    cout << cnt;
+}
