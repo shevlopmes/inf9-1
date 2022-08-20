@@ -1,0 +1,49 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int main()
+{
+    deque<int> a;
+    string in;
+    string s;
+    while(getline(cin,in)){
+        s = in.substr(0,5);
+        if(s=="push "){
+            s = in.substr(5);
+            a.push_back(stoi(s));
+            cout << "ok" << endl;
+            continue;
+        }
+        if(in[0] == 'p'){
+            if(a.size() == 0){
+                cout << "error" << endl;
+                continue;
+            }
+            cout << a.back() << endl;
+            a.pop_back();
+            continue;
+        }
+        if(in[0] == 's'){
+            cout << a.size() << endl;
+            continue;
+        }
+        if(in[0] == 'b'){
+            if(a.size() == 0){
+                cout << "error" << endl;
+                continue;
+            }
+            cout << a.back() << endl;
+            continue;
+        }
+        if(in[0] == 'c'){
+            cout << "ok" << endl;
+            a.clear();
+            continue;
+        }
+        if(in[0] == 'e'){
+            cout << "bye";
+            return 0;
+        }
+    }
+}
