@@ -1,0 +1,39 @@
+#include <iostream>
+#include<vector>
+#include<cmath>
+using namespace std;
+
+int main()
+{
+    cout.precision(20);
+    double a,b,c,x,y,m;
+    cin >> m >> x >> y;
+    x = x*M_PI/180;
+    y = y*M_PI/180;
+    double k = m*2./sqrt(2*sin(x)*sin(x)+2*sin(y)*sin(y)-sin(x+y)*sin(x+y));
+    a = sin(x)*k;
+    b = sin(y)*k;
+    c = sin(x+y)*k;
+    vector<vector<double>>t(3, vector<double>(2));
+    t[0][0] = 0;
+    t[0][1] = 0;
+    t[1][0] = a;
+    t[1][1] = 0;
+
+
+    double cosa = (b*b+c*c-a*a)*1./(2*b*c);
+    double cosb = (a*a+c*c-b*b)*1./(2*a*c);
+    double cosc = (a*a+b*b-c*c)*1./(2*a*b);
+    double sina = sqrt(1-cosa*cosa);
+    double sinb = sqrt(1-cosb*cosb);
+    double sinc = sqrt(1-cosc*cosc);
+    t[2][1] = b*sinc;
+    t[2][0] = b*cosc;
+    for(int i = 0; i < 3; ++i){
+        for(int j = 0; j < 2; ++j){
+            cout << t[i][j] << " ";
+        }
+        cout << endl;
+    }
+
+}
