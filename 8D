@@ -1,0 +1,11 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int main()
+{
+    double a,b,c,r;
+    cin >> a >> b >> c >> r;
+    cout << setprecision(10);
+    cout << fixed << a << " " << b << " " << c+r*sqrt(a*a+b*b);
+}
