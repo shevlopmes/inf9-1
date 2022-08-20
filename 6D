@@ -1,0 +1,19 @@
+#include <bits/stdc++.h>
+using namespace std;
+int main() {
+    int N;
+    cin >> N;
+    int ma = 0;
+    int mi = 0;
+    int nowy = 0;
+    int pr = 0;
+    int x,y;
+    for(int i = 0; i < N; ++i){
+        cin >> x >> y;
+        pr+=x;
+        nowy+=y;
+        if(nowy > ma) ma = nowy;
+        if(nowy < mi) mi = nowy;
+    }
+    cout << pr+1 << " " << ma-mi;
+ }
