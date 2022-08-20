@@ -1,0 +1,13 @@
+#include <iostream>
+
+using namespace std;
+int vc(int n, int m){
+if (n%m==0) return n/m;
+return n/m+1;
+}
+int main()
+{
+    int u,v;
+    cin >> u >> v;
+    cout << vc(u,3)*vc(v,3);
+}
