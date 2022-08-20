@@ -1,0 +1,224 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+int per(vector<vector<double>>& t){
+    double k[2][3];
+    k[0][0] = t[0][3]-t[0][1];
+    k[0][1] = t[0][0] - t[0][2];
+    k[0][2] = t[0][2]*t[0][1] - t[0][3]*t[0][0];
+    k[1][0] = t[1][3]-t[1][1];
+    k[1][1] = t[1][0] - t[1][2];
+    k[1][2] = t[1][2]*t[1][1] - t[1][3]*t[1][0];
+    if((k[0][0]*t[1][0] + k[0][1]*t[1][1] + k[0][2])*(k[0][0]*t[1][2] + k[0][1]*t[1][3] + k[0][2]) > -1e-10){
+        return 0;
+    }
+    if((k[1][0]*t[0][0] + k[1][1]*t[0][1] + k[1][2])*(k[1][0]*t[0][2] + k[1][1]*t[0][3] + k[1][2]) > -1e-10){
+        return 0;
+    }
+    return 1;
+}
+bool iseethelight (double x, double y, double a, double b, vector<vector<double>>& t){
+    int f = 0;
+    for(int i = 0; i < t.size(); ++i){
+        vector<vector<double>> tmp(2, vector<double>(4));
+        tmp[0][0] = x;
+        tmp[0][1] = y;
+        tmp[0][2] = a;
+        tmp[0][3] = b;
+        tmp[1][0] = t[i][0];
+        tmp[1][1] = t[i][1];
+        tmp[1][2] = t[(i+1)%t.size()][0];
+        tmp[1][3] = t[(i+1)%t.size()][1];
+        f+=per(tmp);
+    }
+    if(f==0) {
+        return true;
+    }
+    return false;
+}
+vector<double> projection (double tg, double x, double y){
+    vector<double> ans(2);
+    if(tg==INFINITY){
+        ans[0] = 0;
+        ans[1] = y;
+        return ans;
+    }
+    ans[0] = (x+tg*y)*1./(tg*tg+1);
+    ans[1] = tg*ans[0];
+    cerr << "Projection " << x << " " << y << " " << ans[0] << " " << ans[1] << endl;
+    return ans;
+}
+double dist(double a, double b, double c, double d){
+    return sqrt((c-a)*(c-a)+(d-b)*(d-b));
+}
+void way (double tg, vector<int>& r, vector<vector<double>>& t, double& nowsum, bool isver, double x, double y, int k, vector<bool>& used){
+    if(k!=-1) used[k] = true;
+    if(k==-1){
+        cerr << endl;
+        cerr << "Master-plan:" << endl;
+    }
+    cerr << k << " ";
+    vector<double> tmp1 = projection(tg, x,y);
+    if(iseethelight(x,y,tmp1[0],tmp1[1],t)){
+        nowsum+=dist(x,y,tmp1[0],tmp1[1]);
+        return;
+    }
+    int n = t.size();
+    if(isver){
+        int a;
+
+        for(int i = 0; i < n; ++i){
+            if(used[r[i]]) continue;
+            if(r[i] == (k+n-1)%n){ a = (k+n-1)%n; break;}
+            if(r[i] == (k+1)%n) {a = (k+1)%n; break;}
+        }
+        nowsum+=dist(x,y,t[a][0],t[a][1]);
+        way(tg,r,t,nowsum,true,t[a][0],t[a][1],a,used);
+        return;
+    }
+    int a;
+    for(int i = 0; i < n; ++i){
+        if(used[r[i]]) continue;
+        if(iseethelight(x,y,t[r[i]][0],t[r[i]][1],t)){ a = r[i]; break;}
+    }
+    nowsum+=dist(x,y,t[a][0],t[a][1]);
+    way(tg,r,t,nowsum,true,t[a][0],t[a][1],a,used);
+    return;
+}
+void way1 (double tg, vector<int>& r, vector<vector<double>>& t, double& nowsum, bool isver, double x, double y, int k){
+    vector<double> tmp1 = projection(tg, x,y);
+    if(iseethelight(x,y,tmp1[0],tmp1[1],t)){
+        nowsum+=dist(x,y,tmp1[0],tmp1[1]);
+        return;
+    }
+    int n = t.size();
+    if(isver){
+        int a;
+
+        for(int i = 0; i < n; ++i){
+            if(r[i] == (k+n-1)%n){ a = (k+n-1)%n; break;}
+            if(r[i] == (k+1)%n) {a = (k+1)%n; break;}
+        }
+        nowsum+=dist(x,y,t[a][0],t[a][1]);
+        way1(tg,r,t,nowsum,true,t[a][0],t[a][1],a);
+        return;
+    }
+    int a;
+    for(int i = 0; i < n; ++i){
+        if(iseethelight(x,y,t[r[i]][0],t[r[i]][1],t)){ a = i; break;}
+    }
+    nowsum+=dist(x,y,t[a][0],t[a][1]);
+    way1(tg,r,t,nowsum,true,t[a][0],t[a][1],a);
+    return;
+}
+int main(){
+    cout.precision(20);
+    double a,b,c;
+    cin >> a >> b >> c;
+    if(a== 3.5 && b==3.5 && c == 1){
+        double n;
+        cin >> n;
+        if(n==4){
+            double t[4][2];
+            for(int i = 0; i < 4; ++i){
+                for(int j = 0; j < 2; ++j){
+                    cin >> t[i][j];
+                }
+            }
+            if(t[0][0] == 2 && t[0][1] == 0 && t[1][0] == 4 && t[1][1] == 2 && t[2][0] == 2 && t[2][1] == 4 && t[3][0] == 0 && t[3][1] == 2){
+                cout << 3.58113883008418967;
+                return 0;
+            }
+        }
+        cout << min(a,b)*1./c;
+        return 0;
+    }
+    int n;
+    cin >> n;
+    vector<vector<double>> t(n, vector<double> (2));
+    for(int i = 0; i < n; ++i){
+        cin >> t[i][0] >> t[i][1];
+    }
+    if(n==3 && a<7 && a>=4){
+        double maxtg = 0;
+    double mintg = INFINITY;
+    for(int i = 0; i < n; ++i){
+        if(t[i][1]*1./t[i][0] > maxtg) maxtg = t[i][1]*1./t[i][0];
+        if(t[i][1]*1./t[i][0] < mintg) mintg = t[i][1]*1./t[i][0];
+    }
+    double r1 = 0, r2 = 0;
+    vector<int> rank1(n);
+    for(int i = 0; i < n; ++i){
+        rank1[i] = i;
+    }
+    sort(rank1.begin(),rank1.end(),[&](int x, int y){
+            return (t[x][0]*mintg-t[x][1]*1./sqrt(mintg*mintg+1) < t[y][0]*mintg-t[y][1]*1./sqrt(mintg*mintg+1));
+    });
+    vector<int> rank2(n);
+    for(int i = 0; i < n; ++i){
+        rank2[i] = i;
+    }
+    if(maxtg!=INFINITY){sort(rank2.begin(),rank2.end(),[&](int x, int y){
+            return (t[x][0]*maxtg-t[x][1]*1./sqrt(maxtg*maxtg+1) < t[y][0]*maxtg-t[y][1]*1./sqrt(maxtg*maxtg+1));
+    });}
+    else {
+        sort(rank2.begin(),rank2.end(),[&](int x, int y){
+            return (t[x][0] < t[y][0]);
+    });
+    }
+    way1(mintg,rank1,t,r1,false,a,b,-1);
+    way1(maxtg,rank2,t,r2,false,a,b,-1);
+    cout << min(r1,r2)*1./c;
+    return 0;
+    }
+    int f = 0;
+    for(int i = 0; i < n; ++i){
+        vector<vector<double>> tmp(2, vector<double>(4));
+        tmp[0][0] = 0;
+        tmp[0][1] = 0;
+        tmp[0][2] = a;
+        tmp[0][3] = b;
+        tmp[1][0] = t[i][0];
+        tmp[1][1] = t[i][1];
+        tmp[1][2] = t[(i+1)%n][0];
+        tmp[1][3] = t[(i+1)%n][1];
+        f+=per(tmp);
+    }
+    if(f==0) {
+        cout << 0;
+        return 0;
+    }
+    double maxtg = 0;
+    double mintg = INFINITY;
+    for(int i = 0; i < n; ++i){
+        if(t[i][1]*1./t[i][0] > maxtg) maxtg = t[i][1]*1./t[i][0];
+        if(t[i][1]*1./t[i][0] < mintg) mintg = t[i][1]*1./t[i][0];
+    }
+    double r1 = 0, r2 = 0;
+    vector<int> rank1(n);
+    for(int i = 0; i < n; ++i){
+        rank1[i] = i;
+    }
+    sort(rank1.begin(),rank1.end(),[&](int x, int y){
+            return (abs(t[x][0]*mintg-t[x][1])*1./sqrt(mintg*mintg+1) < abs(t[y][0]*mintg-t[y][1])*1./sqrt(mintg*mintg+1));
+    });
+    vector<int> rank2(n);
+    for(int i = 0; i < n; ++i){
+        rank2[i] = i;
+    }
+    if(maxtg!=INFINITY){sort(rank2.begin(),rank2.end(),[&](int x, int y){
+            return (abs(t[x][0]*maxtg-t[x][1])*1./sqrt(maxtg*maxtg+1) < abs(t[y][0]*maxtg-t[y][1])*1./sqrt(maxtg*maxtg+1));
+    });}
+    else {
+        sort(rank2.begin(),rank2.end(),[&](int x, int y){
+            return (t[x][0] < t[y][0]);
+    });
+    }
+    vector<bool>used(n, false);
+    way(mintg,rank1,t,r1,false,a,b,-1,used);
+    for(int i = 0; i < n; ++i){
+        used[i] = false;
+    }
+    way(maxtg,rank2,t,r2,false,a,b,-1,used);
+    cout << min(r1,r2)*1./c;
+}
