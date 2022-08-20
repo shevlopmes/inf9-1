@@ -1,0 +1,33 @@
+#include <iostream>
+#include<vector>
+#include<algorithm>
+#include<bits/stdc++.h>
+using namespace std;
+int isdv(int n){
+int j = 0;
+while(n%2 == 0){
+    n/=2;
+    j++;
+}
+return j;
+}
+int main()
+{
+    int a,b;
+    cin >> a >> b;
+    if(a<b){
+        if(isdv(a)%2==0){
+            cout << isdv(a) + 1;
+            return 0;
+        }
+        cout << isdv(a)+2;
+        return 0;
+    }
+    if(isdv(a)%2==0){
+            cout << isdv(a);
+            return 0;
+        }
+        cout << isdv(a) + 1;
+        return 0;
+
+}
