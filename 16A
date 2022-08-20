@@ -1,0 +1,77 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+int sign(double a){
+    if(a>0) return 1;
+    if(a<0) return -1;
+    return 0;
+}
+vector<vector<double>> C13 (vector<vector<double>> w, vector<double> r){
+     bool e = false;
+    double h = sqrt((w[0][0]-w[1][0])*(w[0][0]-w[1][0])+(w[0][1]-w[1][1])*(w[0][1]-w[1][1]));
+
+    if (abs(h-(r[0]+r[1]))<1e-6 || abs(r[0]+h-r[1])<1e-6 || abs(r[1]+h-r[0]) < 1e-6) { e = true;}
+    else if(h > r[0]+r[1] || h+r[0] < r[1] || h+r[1] < r[0]){}
+    else {}
+    vector<vector<double>> k(2, vector<double>(3));
+    k[0][0] = w[1][1] - w[0][1];
+    k[0][1] = w[0][0] - w[1][0];
+    k[0][2] = w[1][0]*w[0][1] - w[0][0]*w[1][1];
+    double x = w[0][0] + (w[1][0]-w[0][0])*(h*h+r[0]*r[0]-r[1]*r[1])*1./(2*h)*1./(h);
+    double y = w[0][1] + (w[1][1]-w[0][1])*(h*h+r[0]*r[0]-r[1]*r[1])*1./(2*h)*1./h;
+    k[1][0] = k[0][1];
+    k[1][1] = -k[0][0];
+    k[1][2] =  k[0][0]*y - k[0][1]*x;
+    double q = (h*h+r[0]*r[0]-r[1]*r[1])*1./(2*h);
+    double f = sqrt(k[1][0]*k[1][0]+k[1][1]*k[1][1]);
+    k[1][0]/=f;
+    k[1][1]/=f;
+    k[1][2]/=f;
+    vector<vector<double>> ans(2,vector<double>(2));
+    ans[0][0] = x-k[1][1]*sqrt(r[0]*r[0]-q*q);
+    ans[0][1] = y+k[1][0]*sqrt(r[0]*r[0]-q*q);
+    ans[1][0] = x+k[1][1]*sqrt(r[0]*r[0]-q*q);
+    ans[1][1] = y-k[1][0]*sqrt(r[0]*r[0]-q*q);
+    return ans;
+}
+
+int main()
+{
+    cout.precision(20);
+    double p, hp, s, hs;
+    cin >> p >> hp >> s >> hs;
+    vector<vector<double>> w(2, vector<double>(2));
+    vector<double> r(2);
+    r[0] = p;
+    r[1] = s;
+    w[0][0] = 0;
+    w[1][0] = 0;
+    w[0][1] = hp;
+    w[1][1] = hs;
+    if(r[0] == r[1]){
+        cout << r[0];
+        return 0;
+    }
+    double x = ((-r[1])*w[0][0] + r[0]*(w[1][0]))*1./(r[0]-r[1]);
+    double y = ((-r[1])*w[0][1] + r[0]*(w[1][1]))*1./(r[0]-r[1]);
+    vector<vector<double>> k(2, vector<double>(2));
+    double d = (x-w[0][0])*(x-w[0][0])+(y-w[0][1])*(y-w[0][1]);
+    w[1][0] = x;
+    w[1][1] = y;
+    r[1] = sqrt(d-r[0]*r[0]);
+    k = C13(w,r);
+    double c,t;
+    if(k[0][0] > 0){
+        c = k[0][0];
+        t=k[0][1];
+    } else {
+        c = k[1][0];
+        t = k[1][1];
+    }
+    double l = (-y*(c-x) + x*(t-y))*1./(t-y);
+    if(l < 0){
+        cout << 0;
+        return 0;
+    }
+    cout << l;
+}
