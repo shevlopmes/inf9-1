@@ -1,0 +1,97 @@
+#include <bits/stdc++.h>
+using namespace std;
+int main() {
+    long long ans = 1;
+    long long ansm = 1;
+    bool m = false;
+    vector<string>a(10);
+    a[0] = "1110111";
+    a[1] = "0010010";
+    a[2] = "1011101";
+    a[7] = "1010010";
+    a[8] = "1111111";
+    a[9] = "1111011";
+    a[3] = "1011011";
+    a[4] = "0111010";
+    a[5] = "1101011";
+    a[6] = "1101111";
+    int pr = 0;
+    string in;
+    int N;
+    cin >> N;
+    bool pos[11];
+    fill(pos,pos+11,true);
+    getline(cin,in);
+    getline(cin,in);
+    if(N==1){
+        for(int j = 0; j < 7; j++){
+            for(int c = 0; c < 10; c ++){
+                if(in[j] == '1' && a[c][j] =='0'){
+                    pos[c] = false;
+                }
+            }
+        }
+        for(int c = 0; c < 10; c++){
+            if(pos[c]) pr++;
+
+            ;
+        }
+        ans*=pr;
+        cout << ans;
+        return 0;
+    }
+    if((in[0]-'0') + (in[1]-'0') + (in[2]-'0') + (in[4]-'0') + (in[5]-'0') + (in[6]-'0') == 0){
+        m = true;
+
+
+    }
+    for(int j = 0; j < 7; j++){
+            for(int c = 1; c < 10; c ++){
+                if(in[j] == '1' && a[c][j] =='0'){
+                    pos[c] = false;
+                }
+            }
+        }
+        for(int c = 1; c < 10; c++){
+            if(pos[c]) pr++;
+
+
+        }
+        ans*=pr;
+        pr = 0;
+        fill(pos,pos+11,true);
+
+    for(int i = 1; i < N; ++i){
+        getline(cin,in);
+        for(int j = 0; j < 7; j++){
+            for(int c = 0; c < 10; c ++){
+                if(in[j] == '1' && a[c][j] =='0') {pos[c] = false;
+                }
+            }
+        }
+        for(int c = 0; c < 10; c++){
+            if(pos[c]) pr++;
+
+
+        }
+        ans*=pr;
+        if(m && i !=1) ansm*=pr;
+        if(m&&i==1){
+            pr = 0;
+            for(int c = 1; c < 10; c++){
+            if(pos[c]) pr++;
+
+        }
+         ansm*=pr;
+        }
+
+        pr = 0;
+        fill(pos,pos+11,true);
+    }
+    if(m){
+        cout << ans+ansm;
+        return 0;
+    } else {
+        cout << ans;
+    }
+ }
