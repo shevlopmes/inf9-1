@@ -1,0 +1,60 @@
+#include<bits/stdc++.h>
+using namespace std;
+int sign(double a){
+    if(a>0) return 1;
+    return -1;
+}
+int main(){
+    cout.precision(20);
+    double v,w,a,t,c,d;
+    cin >> v >> w >> a >> t >> c >> d;
+    double t1=0,t2=0;
+    double mi=0,ma=0;
+    if(a!=0){
+    t1 = (v+w)*1./a;
+    if(t1 <= t){
+    mi = v*t1 - a*t1*t1*1./2 - w*(t-t1);
+    }
+    else mi = v*t - a*t*t*1./2;
+    t2 = (w-v)*1./a;
+    if(t2<=t){
+        ma = v*t2 + a*t2*t2*1./2 + w*(t-t2);
+    }
+    else ma = v*t + a*t*t*1./2;
+    }
+    if(a==0) {
+        double x = v*t;
+        if(x < c || x > d){
+            cout << t << " " << 0;
+            return 0;
+        }
+        else{
+            cout << -1;
+            return 0;
+        }
+    }
+    if(mi>=c && ma<=d){
+        cout << -1;
+        return 0;
+    }
+    if(mi < c){
+        if(t1<t){
+        cout << t1 << " " << -a << endl;
+        cout << t-t1 << " " << 0;
+        return 0;
+        } else {
+            cout << t << " " << -a;
+            return 0;
+        }
+    }
+    else {
+        if(t2<t){
+        cout << t2 << " " << a << endl;
+        cout << t-t2 << " " << 0;
+        return 0;
+        } else {
+            cout << t << " " << a;
+            return 0;
+        }
+    }
+}
