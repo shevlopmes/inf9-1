@@ -1,0 +1,14 @@
+#include <bits/stdc++.h>
+using namespace std;
+double u (double x, double y){
+    double ans = x-y;
+    if(ans < 0) ans = (-1)*ans;
+    if(ans > 180) ans = 360-ans;
+    return ans;
+}
+int main() {
+    cout << setprecision(10);
+    double r1, a1, r2, a2;
+    cin >> r1 >> a1 >> r2 >> a2;
+    cout << fixed << sqrt((double)r1*r1 + r2*r2 - 2*r1*r2 * cos(u(a1,a2)*3.14159265359/180));
+ }
