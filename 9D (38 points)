@@ -1,0 +1,64 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+bool free (vector<vector<int>> f, int i1, int i2, int j1, int j2){
+    for(int i = i1; i<= i2; ++i){
+        for(int j = j1; j<= j2; ++j){
+            if(f[i][j] == 1) return false;
+        }
+    }
+    return true;
+}
+void mainmain (vector<vector<int>>&f, int m, int a, int b){
+    long long pl = 0;
+    vector<int> ans = {0,0,0,0};
+    for(int i1 = 0; i1 < a; ++i1){
+        for(int i2 = i1+1; i2 < a; ++i2){
+            for(int j1 = 0; j1 < b; ++j1){
+                for(int j2 = j1+1; j2 < b; ++j2){
+                    if((i2-i1)*(j2-j1) > pl){
+                        if(free(f,i1,i2,j1,j2)){
+                            pl = (i2-i1)*(j2-j1);
+                            ans = {i1,j1,i2+1,j2+1};
+                        }
+                    }
+                }
+            }
+        }
+    }
+    for(int i = 0; i < 4; ++i){
+        cout << ans[i] << " ";
+    }
+    if(m==2){
+        for(int p = ans[0]; p < ans[2]; ++p){
+            for(int q = ans[1]; q < ans[3]; ++q){
+                f[p][q] = 1;
+            }
+        }
+        cout << endl;
+        mainmain(f,1,a,b);
+    }
+    return;
+}
+int main()
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(0);
+    cout.tie(0);
+    int n,m;
+    cin >> n >> m;
+    int a,b;
+    cin >> a >> b;
+    int x,y,z,t;
+    vector<vector<int>> f(a,vector<int>(b,0));
+    for(int i = 0; i < n; ++i){
+        cin >> x >> y >> z >> t;
+
+        for(int p = x; p < z; p++){
+            for(int q = y; q < t; q++){
+                f[p][q] = 1;
+            }
+        }
+    }
+    mainmain(f,m,a,b);
+}
