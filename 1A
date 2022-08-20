@@ -1,0 +1,24 @@
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+    int a,b,c;
+    cin >> a >> b >> c;
+    bool x = false;
+    bool y = false;
+    bool z = false;
+    if(a==b) x = true;
+    if(b==c) y = true;
+    if(a==c) z = true;
+    if(x&&y&&z){
+        cout << 3;
+        return 0;
+    }
+    if(x||y||z){
+        cout << 2;
+        return 0;
+    }
+    cout << 0;
+}
