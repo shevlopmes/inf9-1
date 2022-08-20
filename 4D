@@ -1,0 +1,36 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    char x;
+    stack<int>a;
+    int m,n;
+    while(cin >> x){
+        if(isdigit(x)){
+            a.push(x-'0');
+        }
+        if(x=='+'){
+            m = a.top();
+            a.pop();
+            n = a.top();
+            a.pop();
+            a.push(m+n);
+        }
+        if(x=='-'){
+            m = a.top();
+            a.pop();
+            n = a.top();
+            a.pop();
+            a.push(n-m);
+        }
+        if(x=='*'){
+            m = a.top();
+            a.pop();
+            n = a.top();
+            a.pop();
+            a.push(m*n);
+        }
+    }
+    cout << a.top();
+}
