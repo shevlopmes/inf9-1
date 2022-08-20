@@ -1,0 +1,23 @@
+#include <iostream>
+#include <vector>
+#include <cmath>
+using namespace std;
+int main(int argc, char *argv[])
+{
+    cout.precision(20);
+    vector<vector<double>> t(4, vector<double>(2));
+    cin >> t[0][0] >> t[0][1] >> t[1][0] >> t[1][1];
+    double a = t[1][0] - t[0][0];
+    double b = t[1][1] - t[0][1];
+    t[3][0] = t[0][0] - b;
+    t[3][1] = t[0][1] + a;
+    t[2][0] = t[1][0] - b;
+    t[2][1] = t[1][1] + a;
+    for (int i = 0; i < 4; ++i)
+    {
+        for (int j = 0; j < 2; ++j){
+            cout << t[i][j] << " ";
+        }
+        cout << endl;
+    }
+}
